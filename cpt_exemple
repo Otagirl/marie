@@ -1,0 +1,61 @@
+<!-- 
+On utilise une fonction pour créer notre custom post type 'Propositions'
+ -->
+ <?php
+add_action('init', 'create_movie_cpt');
+function create_movie_cpt(){
+  $post_type = "propositions";
+// On rentre les différentes dénominations de notre custom post type qui seront affichées dans l'administration
+    $labels = array(
+        // Le nom au pluriel
+        'name'               => 'Propositions',
+        // Le nom au singulier
+        'singular_name'      => 'Proposition',
+        // Le libellé affiché dans le menu
+        'menu_name'          => 'Campagne',
+        // Les différents libellés de l'administration
+        'all_items'          => 'Toutes les propositions',
+        'add_new'            => 'Ajouter une proposition',
+        'add_new_item'       => 'Ajouter une proposition',
+        'edit_item'          => "Éditer le film",
+        'new_item'           => 'Nouveau film',
+        'view_item'          => "Voir le film",
+        'search_items'       => 'Rechercher un film',
+        'not_found'          => 'Pas de résultat',
+        'not_found_in_trash' => 'Pas de résultat',
+        'parent_item_colon'  => 'Film parent',
+    );
+
+    // On peut définir ici d'autres options pour notre custom post type
+	
+    $args = array(
+        'labels'              => $labels,
+        'hierarchical'        => false,
+        // On définit les options disponibles dans l'éditeur de notre custom post type ( un titre, un auteur...)
+        'supports'            => array( 'title','thumbnail','editor'),
+        // Différentes options supplémentaires
+        'public'              => true,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'menu_position'       =>0,
+        'menu_icon'           => 'dashicons-video-alt3',
+        'show_in_nav_menus'   => true,
+        'publicly_queryable'  => true,
+        'exclude_from_search' => false,
+        'has_archive'         => false,
+        'query_var'           => true,
+        'can_export'          => true,
+        'rewrite'             => array( 'slug' => $post_type )
+    );
+
+    // On enregistre notre custom post type qu'on nomme ici "serietv" et ses arguments
+    register_post_type( 'proposals', $args );
+    $taxonomy = "propositions";
+    $object_type='film';
+    $args = array(
+          'label' => 'Catégorie de film',
+          'rewrite' => array( 'slug' => 'film-categorie' ),
+          'hierarchical' => true,
+      );
+    register_taxonomy( $taxonomy, $object_type, $args );
+}
